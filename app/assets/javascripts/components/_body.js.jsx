@@ -5,8 +5,9 @@ class Body extends React.Component {
           fruits: []
         };
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.handleDelete = this.handleDelete.bind(this); 
       }
-
+   
       handleFormSubmit(name, description){
         
         let body = JSON.stringify({fruit: {name: name, description:   description} })
@@ -20,7 +21,6 @@ class Body extends React.Component {
           .then((fruit) => {
             this.addNewFruit(fruit);
           })
-        console.log(name, description)
       }
 
       addNewFruit(fruit){
@@ -34,11 +34,24 @@ class Body extends React.Component {
           .then((response) => {return response.json()})
           .then((data) => {this.setState({ fruits: data }) });
       }
+
+      handleDelete(id){
+        fetch(`/api/v1/fruits/${id}`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json"
+            }
+            })
+            .then((res) => {
+                console.log('Item was deleted!')
+            })
+    }
+
     render(){
         return(
           <div>
             <NewFruit handleFormSubmit={this.handleFormSubmit}/>
-            <AllFruits fruits={this.state.fruits} />
+            <AllFruits fruits={this.state.fruits} handleDelete={this.handleDelete} />
           </div>
         )
       }
