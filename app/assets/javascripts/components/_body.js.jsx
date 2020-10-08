@@ -47,6 +47,12 @@ class Body extends React.Component {
             })
     }
 
+      deleteFruit(id){
+        let newFruits = this.state.fruits.filter((fruit) => fruit.id !== id)
+        this.setState({
+          fruits: newFruits
+        })
+      }
     render(){
         return(
           <div>
